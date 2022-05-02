@@ -10,7 +10,7 @@ def parsePlayXML(xmlfile):
         opened_file = file.read()
         tree = et.XML(opened_file)
         nsmap = {'s': 'http://www.tei-c.org/ns/1.0'}
-        print(tree.xpath('Susan', namespaces=nsmap))
+        print(tree.xpath('.//s:speaker/text()', namespaces=nsmap))
 
     
 
