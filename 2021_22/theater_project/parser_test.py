@@ -1,4 +1,5 @@
 from lxml import etree as et
+import re
 
 file_path = "C:/Users/helpdesk/Documents/Github Pedro/PoopProjects/2021_22/theater_project/data/AbrahamLincolnbyJohnDrinkwater11172.xml"
 
@@ -12,7 +13,14 @@ def parsePlayXML(xmlfile):
         nsmap = {'s': 'http://www.tei-c.org/ns/1.0'}
         print(tree.xpath('.//s:speaker/text()', namespaces=nsmap))
 
-    
+#parsePlayXML(file_path)
 
+def pre_processXML(xmlfile):
+    with open(xmlfile, "rb") as file:
+        xmlfile = str(file.read())
 
-parsePlayXML(file_path)  
+        regex = r"<sp>[^<]+<speaker>[^<]+</speaker>"
+        res = re.findall(regex, xmlfile)
+        print(res)
+
+pre_processXML(file_path)
