@@ -46,12 +46,12 @@ def xml2df(xml_path):
                 # Loops through "p" tags and adds to dataframe
                 for _, p in enumerate(tags_p):
                     p = p.text.strip()
-                    speaker_speech_df = speaker_speech_df.append({'speaker':speaker, 'speech':p}, ignore_index=True)
+                    speaker_speech_df = pd.concat([speaker_speech_df,speaker_speech_df.from_dict({'speaker':speaker, 'speech':p})], ignore_index=True)
 
                 # Loops through "p" tags and adds to dataframe
                 for _, l in enumerate(tags_l):
                     l = l.text.strip()
-                    speaker_speech_df = speaker_speech_df.append({'speaker':speaker, 'speech':l}, ignore_index=True)
+                    speaker_speech_df = pd.concat([speaker_speech_df,speaker_speech_df.from_dict({'speaker':speaker, 'speech':l})], ignore_index=True)
 
         return speaker_speech_df
 
