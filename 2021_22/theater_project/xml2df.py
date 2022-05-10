@@ -29,10 +29,6 @@ def xml2df(xml_path):
 
             # Loops through each sp
             for sp in tags_sp:
-<<<<<<< Updated upstream
-                # Finding speaker
-=======
->>>>>>> Stashed changes
                 speaker = sp.find('speaker').text
 
                 # Skipping speakers that have long names
@@ -47,12 +43,8 @@ def xml2df(xml_path):
                 
                 # Loops through tags and adds to dataframe
                 for tag in tags:
-<<<<<<< Updated upstream
-                   speaker_speech_df = strip_n_concat(speaker_speech_df,speaker,tag)          
-=======
                    speaker_speech_df = strip_n_concat(speaker_speech_df,speaker,tag)     
                         
->>>>>>> Stashed changes
         print(speaker_speech_df)
         return speaker_speech_df       
 
@@ -61,6 +53,7 @@ def xml2df(xml_path):
         print("Note : The supplied file was not found.")
         return pd.DataFrame(columns=['speaker', 'speech'])
 
+# Strips texts and concatenates dataframe, df.append is deprecated
 def strip_n_concat(dataframe,speaker, tag):
     tag = tag.text.strip()
     dataframe = pd.concat([dataframe, dataframe.from_dict({'speaker':[speaker], 'speech':[tag]})], ignore_index=True)
