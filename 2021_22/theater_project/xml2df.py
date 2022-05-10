@@ -29,7 +29,10 @@ def xml2df(xml_path):
 
             # Loops through each sp
             for sp in tags_sp:
+<<<<<<< Updated upstream
                 # Finding speaker
+=======
+>>>>>>> Stashed changes
                 speaker = sp.find('speaker').text
 
                 # Skipping speakers that have long names
@@ -44,7 +47,12 @@ def xml2df(xml_path):
                 
                 # Loops through tags and adds to dataframe
                 for tag in tags:
+<<<<<<< Updated upstream
                    speaker_speech_df = strip_n_concat(speaker_speech_df,speaker,tag)          
+=======
+                   speaker_speech_df = strip_n_concat(speaker_speech_df,speaker,tag)     
+                        
+>>>>>>> Stashed changes
         print(speaker_speech_df)
         return speaker_speech_df       
 
