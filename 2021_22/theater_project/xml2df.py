@@ -15,7 +15,7 @@ def xml2df(xml_path):
 
     # Tries to open the file
     try:
-        with open(xml_path, 'r') as xml_file:
+        with open(xml_path, 'rb') as xml_file:
             xml_file = xml_file.read()
 
             # Makes a bs object
@@ -28,7 +28,7 @@ def xml2df(xml_path):
             tags_sp = soup.find_all('sp')
 
             # Loops through each sp
-            for _, sp in enumerate(tags_sp):
+            for sp in tags_sp:
                 # Finding speaker
                 speaker = sp.find('speaker').text
 
@@ -38,20 +38,13 @@ def xml2df(xml_path):
                 if len(speaker) > 35 or speaker.count(" ") > 5:
                     continue
 
-                # Finds all other possible speech that 
+                # Finds all possible speech that 
                 # a speaker can have (tags p and l)
-                tags_p = sp.find_all('p')
-                tags_l = sp.find_all('l')
-
-                # Loops through "p" tags and adds to dataframe
-                for _, p in enumerate(tags_p):
-                    p = p.text.strip()
-                    speaker_speech_df = pd.concat([speaker_speech_df,speaker_speech_df.from_dict({'speaker':[speaker], 'speech':[p]})], ignore_index=True)
-
-                # Loops through "p" tags and adds to dataframe
-                for _, l in enumerate(tags_l):
-                    l = l.text.strip()
-                    speaker_speech_df = pd.concat([speaker_speech_df,speaker_speech_df.from_dict({'speaker':[speaker], 'speech':[l]})], ignore_index=True)
+                tags = sp.find_all('l') + sp.find_all('p')
+                
+                # Loops through tags and adds to dataframe
+                for tag in tags:
+                   speaker_speech_df = strip_n_concat(speaker_speech_df,speaker,tag)          
         print(speaker_speech_df)
         return speaker_speech_df       
 
@@ -59,4 +52,9 @@ def xml2df(xml_path):
     except IOError:
         print("Note : The supplied file was not found.")
         return pd.DataFrame(columns=['speaker', 'speech'])
+
+def strip_n_concat(dataframe,speaker, tag):
+    tag = tag.text.strip()
+    dataframe = pd.concat([dataframe, dataframe.from_dict({'speaker':[speaker], 'speech':[tag]})], ignore_index=True)
+    return dataframe
 xml2df("./data/AbrahamLincolnbyJohnDrinkwater11172.xml")
