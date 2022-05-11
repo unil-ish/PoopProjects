@@ -1,8 +1,4 @@
-from bs4 import BeautifulSoup
-import pandas as pd
-
-def xml2df(xml_path):
-    """
+"""
         Converts a TEI-encoded theater play into a panda's dataframe.
 
         It takes as argument a local path to the XML file
@@ -12,6 +8,12 @@ def xml2df(xml_path):
             - speech  : The content of the speech (XML tag p or l)
         Each XML tag p or l is one line in the dataframe.
     """
+
+from bs4 import BeautifulSoup
+import pandas as pd
+
+def xml2df(xml_path):
+    
 
     # Tries to open the file
     try:
@@ -31,21 +33,17 @@ def xml2df(xml_path):
             for sp in tags_sp:
                 speaker = sp.find('speaker').text
 
-                # Skipping speakers that have long names
-                # because it sometimes happens that the speech
-                # got confused with the speaker's name during encoding
+                # Skipping long names to avoid possible mistags
                 if len(speaker) > 35 or speaker.count(" ") > 5:
                     continue
 
-                # Finds all possible speech that 
-                # a speaker can have (tags p and l)
+                # Finds all possible speech that a speaker can have (tags 'p' and 'l')
                 tags = sp.find_all('l') + sp.find_all('p')
                 
                 # Loops through tags and adds to dataframe
                 for tag in tags:
                    speaker_speech_df = strip_n_concat(speaker_speech_df,speaker,tag)     
-                        
-        print(speaker_speech_df)
+        
         return speaker_speech_df       
 
     # Returns empty dataframe if the file could not be opened/found
