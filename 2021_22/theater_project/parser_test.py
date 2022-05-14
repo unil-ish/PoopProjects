@@ -1,8 +1,8 @@
 from lxml import etree as et
 import re
 
-file_path = "C:/Users/helpdesk/Documents/Github Pedro/PoopProjects/2021_22/theater_project/data/AbrahamLincolnbyJohnDrinkwater11172.xml"
-
+#file_path = "C:/Users/helpdesk/Documents/Github Pedro/PoopProjects/2021_22/theater_project/data/AbrahamLincolnbyJohnDrinkwater11172.xml"
+file_path = "C:/Users/Elija/PycharmProjects/PoopProjects/2021_22/theater_project/data/AbrahamLincolnbyJohnDrinkwater11172.xml"
 
 def parsePlayXML(xmlfile):
     #with open(xmlfile, encoding="utf-8") as file_obj:
@@ -21,6 +21,6 @@ def pre_processXML(xmlfile):
 
         regex = r"<sp>[^<]+<speaker>[^<]+</speaker>"
         res = re.findall(regex, xmlfile)
-        print(res)
+        print(*res, sep='\n')
 
 pre_processXML(file_path)
