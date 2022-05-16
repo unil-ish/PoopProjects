@@ -69,7 +69,7 @@ class Senticnet_ops:
                     secondary_emotion = secondary_emotion.replace('#', '')
                 emo_df = pd.concat([emo_df, emo_df.from_dict({'word':[word],'primary_emotion':[primary_emotion], 'secondary_emotion':[secondary_emotion]})])      
         except KeyError:
-            return {'primary_emotion':None, 'secondary_emotion':None}
+            return emo_df.from_dict({'primary_emotion':[None], 'secondary_emotion':[None]})
         return emo_df
 
 

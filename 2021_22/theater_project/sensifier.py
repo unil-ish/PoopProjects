@@ -15,12 +15,24 @@ def main():
     # Disambiguate function 
     disamb_text = (dis(test, algorithm=maxsim, similarity_option='wup', keepLemmas=True))
     corrected_senticnet = loadCorrectedSenticnet(file_path)
-
+    splitted_text = test.split()
+    print(splitted_text)
 
     lemmas = lem.getLemmas(disamb_text)
     emotions = fromLemmas(lemmas, corrected_senticnet)
+    dataframe_emo = pd.DataFrame(columns=['word', 'primary_emotion', 'secondary_emotion'])
+    dataframe_emo = pd.concat([dataframe_emo, sops.getEmotions(corrected_senticnet, splitted_text)])
+    print(dataframe_emo)
+
+
+
 
     print(emotions)
+
+
+
+
+
 
 def loadCorrectedSenticnet(path):
     with open(path, 'r') as file:
