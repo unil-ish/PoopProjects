@@ -1,17 +1,17 @@
-"""WORK IN PROGRESS"""
-
 from bs4 import BeautifulSoup
 from senticnetStuff import Senticnet_ops as sops
+import json
 
 
-file_path = '/Users/st-hilairecharlotte/Documents/GitHub/PoopProjects/2021_22/senticnet.py'
-
-print(sops.loadSenticnet(file_path))
+file_path = 'C:/Users/helpdesk/Documents/Github_Pedro/PoopProjects/2021_22/theater_project/corr_senticnet.json'
 
 
-with open(file_path, 'r') as xml_file:
-    xml_file = xml_file.read()
-    soup = BeautifulSoup(xml_file, 'xml')
-    primary_emotions = soup.find('primary_emotion')
+def loadCorrectedSenticnet(path):
+    with open(path, 'r') as file:
+        corr_senti = json.load(file)
+    return corr_senti    
 
-    print(primary_emotions)
+corrected_senticnet = loadCorrectedSenticnet(file_path)
+
+emotions = sops.getEmotions(corrected_senticnet, ['love', 'hate', 'fool'])
+print(emotions)

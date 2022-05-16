@@ -56,4 +56,3 @@ def strip_n_concat(dataframe,speaker, tag):
     tag = tag.text.strip()
     dataframe = pd.concat([dataframe, dataframe.from_dict({'speaker':[speaker], 'speech':[tag]})], ignore_index=True)
     return dataframe
-xml2df("./data/AbrahamLincolnbyJohnDrinkwater11172.xml")
