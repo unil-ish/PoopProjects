@@ -1,5 +1,4 @@
-from pywsd import disambiguate as dis
-from pywsd.similarity import max_similarity as maxsim
+
 import pandas as pd
 
 """ THIS PROGRAMM IS A WORK IN PROGRESS
@@ -14,25 +13,21 @@ Returns a DataFrame with a single row of arrays as of right now. Trying to fix i
 
 """
 
-# Initializing some variables
-test = "The sound waves are pouring on me"
+class Lemmarize:
+    
+    def getLemmas(disamb):
+        synset_array = []
+        syn_df = pd.DataFrame()
 
-def give_lemmas():
-    synset_array = []
-    syn_df = pd.DataFrame()
+        # Extracting every disambiguated Synset
+        # Since disambiguate returns a list of tuples 
+        # we can use unpacking to extract all disambiguated Synsets.
+        for disamb_tuple in disamb:
+            (word, wroot, synset) = disamb_tuple
+            if synset:
+                synset_array.append(synset)
 
-    # Disambiguate function 
-    disamb = (dis(test, algorithm=maxsim, similarity_option='wup', keepLemmas=True))
-
-    # Extracting every disambiguated Synset
-    # Since disambiguate returns a list of tuples 
-    # we can use unpacking to extract all disambiguated Synsets.
-    for disamb_tuple in disamb:
-        (word, wroot, synset) = disamb_tuple
-        if synset:
-            synset_array.append(synset)
-
-    # Store all lemmas of disambiguated Synset 
-    for syn in synset_array:
-        syn_df[syn.lemma_names()[0]] = pd.Series([syn.lemma_names()])
-    return syn_df
+        # Store all lemmas of disambiguated Synset 
+        for syn in synset_array:
+            syn_df[syn.lemma_names()[0]] = pd.Series([syn.lemma_names()])
+        return syn_df
