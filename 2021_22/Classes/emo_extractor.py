@@ -2,8 +2,8 @@ import senticnet
 
 class Emo_extractor():
 
-    def __init__(self, disambigauted_df):
-        self.emotions_df = disambigauted_df
+    def __init__(self, disambiguated_df):
+        self.emotions_df = disambiguated_df
         self.list_1st_emotion = []
         self.list_2nd_emotion = []
 
