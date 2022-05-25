@@ -40,3 +40,20 @@ disambiguate_dialog_df["1st Emotion"] = list_1st_emotion
 disambiguate_dialog_df["2nd Emotion"] = list_2nd_emotion
 
 print(disambiguate_dialog_df)
+
+#Synonym
+from nltk.corpus import wordnet
+import nltk
+nltk.download('wordnet')
+def synonym_antonym_extractor(phrase):
+    mots = phrase.split(" ")
+    synonyms = []
+
+    for mot in mots:
+        for syn in wordnet.synsets(mot):
+            for l in syn.lemmas():
+                synonyms.append(l.name())
+
+    print(set(synonyms))
+
+synonym_antonym_extractor(phrase="I was to the library to eat my sandwich with love")
