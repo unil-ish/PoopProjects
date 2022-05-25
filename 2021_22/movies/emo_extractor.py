@@ -4,8 +4,6 @@ class Emo_extractor():
 
     def __init__(self, disambigauted_df):
         self.emotions_df = disambigauted_df
-        self.list_1st_emotion = []
-        self.list_2nd_emotion = []
 
     def extract_emotion(self):
         self.emotions_df = self.emotions_df.astype('string')

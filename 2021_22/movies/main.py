@@ -1,18 +1,14 @@
-list_1st_emotion = []
-list_2nd_emotion = []
+import senticnet
+
+emo_extractor = Emo_extractor()
 
 for w in disambiguate_dialog_df["Word"]:
     #wm=w.lower()
 
     if w in senticnet.senticnet.keys():
-        #mylist = senticnet.senticnet[wm]
-        #print(f'key for word {wm} : {senticnet.senticnet[wm]} which sentiments are : {senticnet.senticnet[wm][4]} and {mylist[5].strip("#")}')
-        list_1st_emotion.append(senticnet.senticnet[w][4])
-        list_2nd_emotion.append(senticnet.senticnet[w][5])
+        emo_extractor.extract_emotion()
     elif w in senticnet.senticnet.values():
-        list_1st_emotion.append(senticnet.senticnet[w][4])
-        list_2nd_emotion.append(senticnet.senticnet[w][5])
-        print("Synonyme")
+        emo_extractor.extract_emotion()
     elif w not in senticnet.senticnet.keys() and senticnet.senticnet.values() :
         check_w = wn.synsets(w)
         if check_w:
