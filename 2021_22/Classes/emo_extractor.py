@@ -13,3 +13,9 @@ class Emo_extractor():
             for word, synset in each:
                 self.emotions_df['1st emotion'] = self.emotions_df.disambiguated[word].senticnet.senticnet[word][4]
                 self.emotions_df['2nd emotion'] = self.emotions_df.disambiguated[word].senticnet.senticnet[word][5]
+
+    def get_number_of_words(self):
+        pass
+
+    def get_the_average(self):
+        pass
