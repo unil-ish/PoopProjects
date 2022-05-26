@@ -8,6 +8,7 @@ import emo_extractor
 
 
 def main():
+
     processor = preprocessor.Preprocessor('../data/dialogs_movies')
     df_speakers_speeches = processor.process_speakers_and_speeches()
     #print(df_speakers_speeches)
@@ -18,7 +19,7 @@ def main():
 
     emoextractor = emo_extractor.Emo_Extractor(disambiguated_df)
     emotions_df = emoextractor.extract_emotion()
-    print(emotions_df)
+    #print(emotions_df)
 
 
 
