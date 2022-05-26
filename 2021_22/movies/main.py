@@ -11,7 +11,7 @@ def main():
 
     processor = preprocessor.Preprocessor('../data/dialogs_movies')
     df_speakers_speeches = processor.process_speakers_and_speeches()
-    #print(df_speakers_speeches)
+    print(df_speakers_speeches)
 
     disambiguer = disambiguator.Disambiguator(df_speakers_speeches)
     disambiguated_df = disambiguer.disambiguate()
