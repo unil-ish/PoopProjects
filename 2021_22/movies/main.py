@@ -2,13 +2,25 @@ import senticnet
 from nltk.corpus import wordnet
 import nltk
 nltk.download('wordnet')
-from . import preprocessor
+import preprocessor
+import disambiguator
+import emo_extractor
 
 def main():
     processor = preprocessor.Preprocessor('../data/dialogs_movies')
-    processor.
+    df_speakers_speeches=processor.process_speakers_and_speeches()
+    #print(df_speakers_speeches)
+    disambiguer=disambiguator.Disambiguator(df_speakers_speeches)
+    disambigauted_df=disambiguer.disambiguate()
+    #print(disambigauted_df)
+    emoextractor=emo_extractor.Emo_Extractor(disambigauted_df)
+    emotions_df=emoextractor.extract_emotion()
+    print(emotions_df)
 
 
+
+
+"""
 
 def main2():
     preprocessor = Preprocessor()
@@ -56,7 +68,7 @@ def main2():
 
 
     print(disambiguate_dialog_df)
-
+"""
 
 if __name__ == "__main__":
     main()

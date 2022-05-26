@@ -9,5 +9,5 @@ class Disambiguator():
 
     def disambiguate(self):
         self.disambigauted_df=self.disambigauted_df.astype('string')
-        self.disambigauted_df['disambiguated']=self.disambigauted_df.speech.apply(lambda x: disambiguate(x))
+        self.disambigauted_df['disambiguated']=self.disambigauted_df.Speech.apply(lambda x: disambiguate(x))
         return self.disambigauted_df
