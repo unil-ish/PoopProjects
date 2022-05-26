@@ -1,13 +1,21 @@
-
-
+# Import the different packages that we need
 from pywsd import disambiguate
 
+
+# Create the "Disambiguator" class
 class Disambiguator():
 
+    # This class needs an __init__ function
     def __init__(self, dataframe):
-        self.disambigauted_df=dataframe
+        # With the dataframe we received after the preprocess operation
+        self.disambiguated_df = dataframe
 
+    # Create a "disambiguate" function
     def disambiguate(self):
-        self.disambigauted_df=self.disambigauted_df.astype('string')
-        self.disambigauted_df['disambiguated']=self.disambigauted_df.Speech.apply(lambda x: disambiguate(x))
-        return self.disambigauted_df
+        # Convert the dataframe columns into strings
+        self.disambiguated_df = self.disambiguated_df.astype('string')
+        # Disambiguate the Speech information and put it under a new column "disambiguated"
+        self.disambiguated_df['disambiguated'] = self.disambiguated_df.Speech.apply(lambda x: disambiguate(x))
+
+        # Return the dataframe with the disambiguated speeches
+        return self.disambiguated_df

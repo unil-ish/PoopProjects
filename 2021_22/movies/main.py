@@ -11,9 +11,9 @@ def main():
     df_speakers_speeches=processor.process_speakers_and_speeches()
     #print(df_speakers_speeches)
     disambiguer=disambiguator.Disambiguator(df_speakers_speeches)
-    disambigauted_df=disambiguer.disambiguate()
-    #print(disambigauted_df)
-    emoextractor=emo_extractor.Emo_Extractor(disambigauted_df)
+    disambiguated_df=disambiguer.disambiguate()
+    #print(disambiguated_df)
+    emoextractor=emo_extractor.Emo_Extractor(disambiguated_df)
     emotions_df=emoextractor.extract_emotion()
     print(emotions_df)
 
