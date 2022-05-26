@@ -35,15 +35,15 @@ class Preprocessor():
                     self.filename.append(file)
 
                 # Initialize a regular expression for the speakers
-                regex_speaker = re.compile("[A-Z]{3}.+")
+                    regex_speaker = re.compile("[A-Z]{3}.+")
                 # Use this regex to find all the speakers in the "document"
-                self.regex_speaker_in_doc.append(regex_speaker.findall(document))
+                    self.regex_speaker_in_doc.append(regex_speaker.findall(document))
 
                 # Initialize another regular expression for the speeches
-                regex_speech = re.compile("(^[A-Z]{3}.+\n\n)(.+\n\n)+?(?=[A-Z]{3}.+)")
+                regex_speech = re.compile("((^[A-Z]{3}.+\n\n)(.+\n\n)+?(?=[A-Z]{3}.+))")
                 # Use this regex to find all the speeches in the "document"
                 self.regex_speech_in_doc.append(regex_speech.findall(document))
-
+        print(self.regex_speech_in_doc)
         # Return a dataframe with the columns Speech and Speaker with the associated information
         return pd.DataFrame({"Speech":pd.Series(self.regex_speech_in_doc),"Speaker":pd.Series(self.regex_speaker_in_doc), 'Filename':pd.Series(self.filename),'Gender':pd.Series(self.gender)}
                                      )
