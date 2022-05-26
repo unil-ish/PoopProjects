@@ -48,3 +48,4 @@ class Preprocessor():
         return pd.DataFrame({"Speech":pd.Series(self.regex_speech_in_doc),"Speaker":pd.Series(self.regex_speaker_in_doc), 'Filename':pd.Series(self.filename),'Gender':pd.Series(self.gender)}
                                      )
 
+
