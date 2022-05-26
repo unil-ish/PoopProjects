@@ -6,15 +6,18 @@ import preprocessor
 import disambiguator
 import emo_extractor
 
+
 def main():
     processor = preprocessor.Preprocessor('../data/dialogs_movies')
-    df_speakers_speeches=processor.process_speakers_and_speeches()
+    df_speakers_speeches = processor.process_speakers_and_speeches()
     #print(df_speakers_speeches)
-    disambiguer=disambiguator.Disambiguator(df_speakers_speeches)
-    disambiguated_df=disambiguer.disambiguate()
+
+    disambiguer = disambiguator.Disambiguator(df_speakers_speeches)
+    disambiguated_df = disambiguer.disambiguate()
     #print(disambiguated_df)
-    emoextractor=emo_extractor.Emo_Extractor(disambiguated_df)
-    emotions_df=emoextractor.extract_emotion()
+
+    emoextractor = emo_extractor.Emo_Extractor(disambiguated_df)
+    emotions_df = emoextractor.extract_emotion()
     print(emotions_df)
 
 
