@@ -6,17 +6,22 @@ import preprocessor
 import disambiguator
 import emo_extractor
 
-
+#Run every classes in the correct order
 def main():
 
+    #Run the preprocessor, we give it the path to the folders, and it returns the dataframe with speaker and speeches
     processor = preprocessor.Preprocessor('../data/dialogs_movies')
     df_speakers_speeches = processor.process_speakers_and_speeches()
     #print(df_speakers_speeches)
 
+    #Run the disambiguator, that take the previous dataframe (speaker/speech) and return a new dataframe
+    #with a disambiguated column
     disambiguer = disambiguator.Disambiguator(df_speakers_speeches)
     disambiguated_df = disambiguer.disambiguate()
     #print(disambiguated_df)
 
+    #Run the emotions extractor, that take the previous dataframe (disambiguated) and return a new one
+    #with 2 new columns, 1st and 2nd emotion.
     emoextractor = emo_extractor.Emo_Extractor(disambiguated_df)
     emotions_df = emoextractor.extract_emotion()
     #print(emotions_df)
