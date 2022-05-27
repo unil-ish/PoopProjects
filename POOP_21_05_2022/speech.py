@@ -1,10 +1,11 @@
 import nltk
-
+# from nltk.corpus import wordnet
 # Uncomment this if needed
-# nltk.download('stopwords')
-# nltk.download('punkt')
-# nltk.download('averaged_perceptron_tagger')
-# nltk.download('wordnet')
+"""nltk.download('stopwords')
+nltk.download('punkt')
+nltk.download('averaged_perceptron_tagger')
+nltk.download('wordnet')
+nltk.download('omw-1.4')"""
 
 import pywsd
 import re
@@ -73,12 +74,19 @@ class Speech:
         text_disambiguate = ''
 
         # Builds back the sentence
-        for w in self.pywsd_output:
-            text_disambiguate = text_disambiguate + ' ' + w[1]
+        for tuple in self.pywsd_output:   
+            # Unpacking tuple of pywsd output
+            (word, rootword, synset) = tuple
+
+            if not synset:
+                text_disambiguate = text_disambiguate + ' ' + word
+
+            # Using the first lemma's name for simplicity
+            if synset:
+                text_disambiguate = text_disambiguate + ' ' + synset.lemmas()[0].name()
 
         # Stores disambiguated speech
         self.text_disambiguate = text_disambiguate.strip()
-
         return self.text_disambiguate
 
     def getMaxEmotion(self, emotions):
@@ -122,7 +130,6 @@ class Speech:
 
     def getEmotions(self, stcnet):
         """ Gets primary and secondary emotion for a speech. """
-
         # Verifes that stcnet is a senticnet dict
         if not stcnet.senticnet:
             return None
@@ -137,11 +144,11 @@ class Speech:
             self.tokenize()
 
         # First, determines emotions for each token
+        iterator = 0
         for t in self.tokenized_text:
             # (1) Verifies if one can find emotions for
             # the token directly in senticnet
             t_emotions = stcnet.emotionsOf(t)
-
             # (2) If the emotions are not found, tries to
             # loop through whole synonyms of senticnet to find
             # the average emotion associated with the token
@@ -151,14 +158,15 @@ class Speech:
 
                 # Finds average emotions, if possible
                 t_emotions = stcnet.averageEmotionsOf(t_synonyms)
-
                 # (3) If the emotions are still not found,
                 # tries to find them in NLTK
                 if not t_emotions["primary_emotion"]:
-
-                    # TO DO
-
-                    pass
+                    tuple = self.pywsd_output[iterator]
+                    (word, rootword, synset) = tuple
+                    if synset:
+                        t_synonyms = [str(lemma.name()) for lemma in synset.lemmas()]
+                        t_emotions = stcnet.averageEmotionsOf(t_synonyms)
+            iterator += 1
 
             # Gets primary/secondary emotion for current word
             pe = t_emotions['primary_emotion']
@@ -178,7 +186,6 @@ class Speech:
 
             # Adds to list
             tokenized_emotions.append(t_emotions)
-
         # Stores the result in an attribute of speech
         self.tokenized_emotions = tokenized_emotions
 

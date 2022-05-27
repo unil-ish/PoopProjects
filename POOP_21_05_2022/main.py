@@ -1,6 +1,6 @@
 import senticnet
 import play
-
+import speech
 def debug():
     """
         =================
@@ -24,6 +24,11 @@ def debug():
     print(f'Total amount of words (count v1) : {words}')
     print(f'Total amount of words (count v2) : {len(p)}')
     """
+    speech1 = speech.Speech('I really love cholocate. It makes me the happiest man in the world.', 2, 2)
+    speech1.disambiguate()
+    s = senticnet.Senticnet()
+    print(speech1.getEmotions(s))
+    
 
     return
 

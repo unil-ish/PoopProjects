@@ -1,7 +1,7 @@
 import sys
 
 class Senticnet:
-    def __init__(self, path="senticnet/senticnet.py"):
+    def __init__(self, path="E:/GitHub/PoopProjects/2021_22/theater_project/senticnet.py"):
         """
             Loads a senticnet file into a dict.
 
@@ -16,7 +16,7 @@ class Senticnet:
 
         # Tries to open the file
         try:
-            with open(path, 'r') as senticnetFile:
+            with open(path, 'r', encoding='utf-8') as senticnetFile:
                 senticnetFile = senticnetFile.readlines()
 
                 # Loops through each line

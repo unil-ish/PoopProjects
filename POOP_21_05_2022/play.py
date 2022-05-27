@@ -31,7 +31,7 @@ class Play:
 
         # Tries to open the file
         try:
-            with open(self.path, 'r') as xml_file:
+            with open(self.path, 'r', encoding='utf-8') as xml_file:
                 xml_file = xml_file.read()
 
                 # Removes all <stage> tags before processing
@@ -73,7 +73,7 @@ class Play:
                         scene_number = 0
 
                     # Loops through each sp
-                    for _, sp in enumerate(tags_sp):
+                    for sp in tags_sp:
                         # Finding speaker
                         speaker = sp.find('speaker').text
 
@@ -85,31 +85,17 @@ class Play:
 
                         # Finds all other possible speech that 
                         # a speaker can have (tags p and l)
-                        tags_p = sp.find_all('p')
-                        tags_l = sp.find_all('l')
+                        tags = sp.find_all('p') + sp.find_all('l')
 
-                        # Loops through "p" tags and adds to dataframe
-                        for _, p in enumerate(tags_p):
-                            p = p.text.strip()
-
-                            # Stores in dataframe for easy retrieval
-                            self.speaker_speech = self.speaker_speech.append({'speaker':speaker, 'speech':speech.Speech(p, scene_number, speech_id), 'scene':scene_number}, ignore_index=True)
-
-                            # Adds raw text
-                            self.text += ' ' + p
-
-                            # Increments speech count
-                            speech_id += 1
-
-                        # Loops through "p" tags and adds to dataframe
-                        for _, l in enumerate(tags_l):
-                            l = l.text.strip()
+                        # Loops through all tags and adds to dataframe
+                        for tag in tags:
+                            tag = tag.text.strip()
 
                             # Stores in dataframe for easy retrieval
-                            self.speaker_speech = self.speaker_speech.append({'speaker':speaker, 'speech':speech.Speech(l, scene_number, speech_id), 'scene':scene_number}, ignore_index=True)
+                            self.speaker_speech = pd.concat([self.speaker_speech, self.speaker_speech.from_dict({'speaker':[speaker], 'speech':[speech.Speech(tag, scene_number, speech_id)], 'scene':[scene_number]})], ignore_index=True)
 
                             # Adds raw text
-                            self.text += ' ' + l
+                            self.text += ' ' + tag
 
                             # Increments speech count
                             speech_id += 1
