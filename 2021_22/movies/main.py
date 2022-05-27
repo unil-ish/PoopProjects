@@ -1,7 +1,10 @@
+#Import the packages that we need
 import senticnet
 from nltk.corpus import wordnet
 import nltk
 nltk.download('wordnet')
+
+#Import every .py file thate we need
 import preprocessor
 import disambiguator
 import emo_extractor
