@@ -22,8 +22,10 @@ def main():
 
     # Run the visualizator, that take the previous dataframe (speaker/speech) and return a graph
     visualize = visualizator.Visualizator(df_speakers_speeches)
-    visualization = visualize.speaker_vizualize()
-    #print(visualization)
+    visualization_gender = visualize.gender_visualize()
+    visualization_file = visualize.file_vizualize()
+    #print(visualization_gender)
+    #print(visualization_file)
     plt.show()
 
     # Run the disambiguator, that take the previous dataframe (speaker/speech) and return a new dataframe
