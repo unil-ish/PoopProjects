@@ -25,14 +25,20 @@ class Emo_Extractor():
                 #Lower the words so there is no conflict
                 word = each[0].lower()
                 #If our word has a result in senticnet, add the first and second emotion in the corresponding list
-                if word in senticnet.senticnet:
+                if word in senticnet.senticnet.keys():
+                    first_emotion.append(senticnet.senticnet[word[4]])
+                    second_emotion.append(senticnet.senticnet[word[5]])
+                #If our word has a result in the values from senticnet,
+                #add the first and second emotion in the corresponding list
+                elif word in senticnet.senticnet.values():
                     first_emotion.append(senticnet.senticnet[word[4]])
                     second_emotion.append(senticnet.senticnet[word[5]])
 
         #Create 2 new columns in the dataframe, one for the first emotion and another for the second, containing
         #the corresponding list
-        self.emotions_df['2nd emotion'] = pd.Series(second_emotion)
         self.emotions_df['1st emotion'] = pd.Series(first_emotion)
+        self.emotions_df['2nd emotion'] = pd.Series(second_emotion)
+
 
         #Return the final result
         return self.emotions_df

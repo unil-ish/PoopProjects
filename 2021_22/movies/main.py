@@ -27,7 +27,7 @@ def main():
     #with 2 new columns, 1st and 2nd emotion.
     emoextractor = emo_extractor.Emo_Extractor(disambiguated_df)
     emotions_df = emoextractor.extract_emotion()
-    #print(emotions_df)
+    print(emotions_df)
 
 
 
