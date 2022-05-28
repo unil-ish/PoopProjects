@@ -45,8 +45,8 @@ class Preprocessor():
                 self.regex_speech_in_doc.append(regex_speech.findall(document))
         #print(self.regex_speech_in_doc)
 
-        # Return a dataframe with the columns Speech and Speaker with the associated information
-        return pd.DataFrame({"Speech":pd.Series(self.regex_speech_in_doc),"Speaker":pd.Series(self.regex_speaker_in_doc), 'Filename':pd.Series(self.filename),'Gender':pd.Series(self.gender)}
+        # Return a dataframe with the columns Speaker and Speech with the associated information
+        return pd.DataFrame({"Speaker":pd.Series(self.regex_speaker_in_doc), "Speech":pd.Series(self.regex_speech_in_doc), 'Filename':pd.Series(self.filename),'Gender':pd.Series(self.gender)}
                                      )
 
 
