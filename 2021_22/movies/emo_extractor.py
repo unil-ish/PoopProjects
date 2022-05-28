@@ -33,6 +33,8 @@ class Emo_Extractor():
                 elif word in senticnet.senticnet.values():
                     first_emotion.append(senticnet.senticnet[word[4]])
                     second_emotion.append(senticnet.senticnet[word[5]])
+                elif word not in senticnet.senticnet.keys() or senticnet.senticnet.values():
+
 
         #Create 2 new columns in the dataframe, one for the first emotion and another for the second, containing
         #the corresponding list
