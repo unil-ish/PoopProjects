@@ -23,8 +23,9 @@ def main():
     # Run the visualizator, that take the previous dataframe (speaker/speech) and return a graph
     visualize = visualizator.Visualizator(df_speakers_speeches)
     visualization_gender = visualize.gender_visualize()
+    # print(visualization_gender)
+    plt.show()
     visualization_file = visualize.file_vizualize()
-    #print(visualization_gender)
     #print(visualization_file)
     plt.show()
 
