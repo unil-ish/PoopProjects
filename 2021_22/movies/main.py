@@ -43,7 +43,7 @@ def main():
     # Save the dataframe into a CSV file
     emotions_df.to_csv('the_dataframe.csv')
 
-#2498 speeches
+#2498 texts
 
 """
 
