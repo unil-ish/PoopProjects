@@ -47,8 +47,11 @@ class Emo_Extractor():
                             synonyms.append(l.name())
                     # If the word has synonyms
                     if synonyms:
+                        pass
                         # Look up if the first synonym of the list is in the senticnet's keys
-                        if synonyms[0] in senticnet.senticnet.keys():
+                        #Nous avons mis cette section en commentaire car il y avait une key error que nous n'avons pas
+                        #réussi à résoudre, le code marche sans cette partie.
+                        '''if synonyms[0] in senticnet.senticnet.keys():
                             synonym = synonyms[0]
                             # Add the first and second emotion in the corresponding list
                             first_emotion.append(senticnet.senticnet[synonym[4]])
@@ -63,7 +66,7 @@ class Emo_Extractor():
                         # add "not found" to the corresponding list
                         else:
                             first_emotion.append("not found")
-                            second_emotion.append("not found")
+                            second_emotion.append("not found")'''
                     # If there isn't a synonym for the word, add "not found" to the corresponding list
                     else:
                         first_emotion.append("not found")
