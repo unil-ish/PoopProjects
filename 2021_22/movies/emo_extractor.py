@@ -48,10 +48,10 @@ class Emo_Extractor():
                     # If the word has synonyms
                     if synonyms:
                         pass
-                        # Look up if the first synonym of the list is in the senticnet's keys
                         #Nous avons mis cette section en commentaire car il y avait une key error que nous n'avons pas
                         #réussi à résoudre, le code marche sans cette partie.
-                        '''if synonyms[0] in senticnet.senticnet.keys():
+                        '''# Look up if the first synonym of the list is in the senticnet's keys
+                        if synonyms[0] in senticnet.senticnet.keys():
                             synonym = synonyms[0]
                             # Add the first and second emotion in the corresponding list
                             first_emotion.append(senticnet.senticnet[synonym[4]])
