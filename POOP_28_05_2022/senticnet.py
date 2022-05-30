@@ -16,7 +16,7 @@ class Senticnet:
 
         # Tries to open the file
         try:
-            with open(path, 'r') as senticnetFile:
+            with open(path, 'r', encoding="utf-8") as senticnetFile:
                 senticnetFile = senticnetFile.readlines()
 
                 # Loops through each line
