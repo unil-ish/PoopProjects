@@ -124,7 +124,7 @@ class Vizualisation:
                 emotions = [str(s.primary_emotion), str(s.secondary_emotion)]
                 for e in emotions:
                     if e != 'nan':
-                        df = df.append({'speaker':c.name, 'emotion':e, 'scene':s.scene}, ignore_index=True)
+                        df = pd.concat([df, df.from_dict({'speaker':[c.name], 'emotion':[e], 'scene':[s.scene]})], ignore_index=True)
 
         # Drops useless characters
         df = df[df.speaker.isin(keys) == True]
@@ -179,7 +179,7 @@ class Vizualisation:
                 emotions = [str(s.primary_emotion), str(s.secondary_emotion)]
                 for e in emotions:
                     if e != 'nan':
-                        df = df.append({'emotion':e, 'scene':str(s.scene)}, ignore_index=True)
+                        df = pd.concat([df, df.from_dict({'emotion':[e], 'scene':[str(s.scene)]})], ignore_index=True)
 
         # Renders plot
         plt.figure(figsize=(16,12))

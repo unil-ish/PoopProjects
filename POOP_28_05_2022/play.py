@@ -227,7 +227,7 @@ class Play:
 
                 # Adds to play dataframe
                 speaker = row[1].speaker
-                self.speaker_speech = self.speaker_speech.append({'speaker':speaker, 'speech':s, 'scene':scene}, ignore_index=True)
+                self.speaker_speech = pd.concat([self.speaker_speech, self.speaker_speech.from_dict({'speaker':[speaker], 'speech':[s], 'scene':[scene]})], ignore_index=True)
 
             # Sets max scene value
             self.scene = scene

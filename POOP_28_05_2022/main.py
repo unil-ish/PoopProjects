@@ -26,16 +26,16 @@ def debug():
     barPlotSpeeches.plot()
 
     # Bar plot for words
-    #barPlotWords = vizualisation.Vizualisation(p, "bpw")
-    #barPlotWords.plot()
+    barPlotWords = vizualisation.Vizualisation(p, "bpw")
+    barPlotWords.plot()
 
     # Emotions by character
-    #emotionByCharacter = vizualisation.Vizualisation(p, "ebc")
-    #emotionByCharacter.plot()
+    emotionByCharacter = vizualisation.Vizualisation(p, "ebc")
+    emotionByCharacter.plot()
 
     # Emotions by act
-    #emotionByAct = vizualisation.Vizualisation(p, "eba")
-    #emotionByAct.plot()
+    emotionByAct = vizualisation.Vizualisation(p, "eba")
+    emotionByAct.plot()
 
 def main(path, stcnet):
     """ Main function """
@@ -56,7 +56,7 @@ def main(path, stcnet):
         p.to_csv()
 
         # (7) If needed, reimports everything from the csv
-        #path_csv = "path/to/csv"
+        #path_csv = "path/to/csv" 
         #p.from_csv(path_csv)
 
         # (8) Generates and saves plots
