@@ -1,4 +1,13 @@
+"""
+    Module Speech
+"""
+
+import time
+import pywsd
 import nltk
+
+from pywsd.similarity import max_similarity as maxsim
+
 # from nltk.corpus import wordnet
 
 # Uncomment this if needed
@@ -7,12 +16,6 @@ import nltk
 # nltk.download('averaged_perceptron_tagger')
 # nltk.download('wordnet')
 # nltk.download('omw-1.4')
-
-import pywsd
-import re
-import time
-
-from pywsd.similarity import max_similarity as maxsim
 
 class Speech:
     """
@@ -43,7 +46,7 @@ class Speech:
         # Checks if text has already been disambiguated
         if not self.text_disambiguate:
             self.disambiguate()
-            print("# Successfully disambiguated speech id", self.id, "in", self.disambiguation_time, "s")
+            print(f'# Successfully disambiguated speech {self.id} in {self.disambiguation_time}s')
 
         # NLTK tokenization
         self.tokenized_text = nltk.word_tokenize(self.text_disambiguate)
@@ -67,7 +70,12 @@ class Speech:
         disamb_start = time.time()
 
         # Disambiguates speech
-        self.pywsd_output = pywsd.disambiguate(self.text, algorithm=maxsim, similarity_option='wup', keepLemmas=True)
+        self.pywsd_output = pywsd.disambiguate(
+            self.text,
+            algorithm=maxsim,
+            similarity_option='wup',
+            keepLemmas=True
+        )
 
         # Stores disambiguation time
         self.disambiguation_time = round(time.time() - disamb_start, 3)
@@ -75,9 +83,9 @@ class Speech:
         text_disambiguate = ''
 
         # Builds back the sentence
-        for tuple in self.pywsd_output:   
+        for pywsd_tuple in self.pywsd_output:
             # Unpacking tuple of pywsd output
-            (word, rootword, synset) = tuple
+            (word, _, synset) = pywsd_tuple
 
             if not synset:
                 text_disambiguate = text_disambiguate + ' ' + word
@@ -98,7 +106,7 @@ class Speech:
         """
 
         # Verifies input type to be a dict
-        if type(emotions) != dict:
+        if isinstance(emotions, dict):
             return None
 
         else:
@@ -166,8 +174,8 @@ class Speech:
                 # (3) If the emotions are still not found,
                 # tries to find them in NLTK
                 if not t_emotions["primary_emotion"]:
-                    tuple = self.pywsd_output[iterator]
-                    (word, rootword, synset) = tuple
+                    emotions_tuple = self.pywsd_output[iterator]
+                    (_, _, synset) = emotions_tuple
                     if synset:
                         t_synonyms = [str(lemma.name()) for lemma in synset.lemmas()]
                         t_emotions = stcnet.averageEmotionsOf(t_synonyms)
@@ -200,7 +208,6 @@ class Speech:
         self.secondary_emotion = self.getMaxEmotion(s_tokenized_emotions)
 
         # Success message
-        print("# Successfully extracted emotions for speech id", self.id)
+        print(f'# Successfully extracted emotions for speech id {self.id}')
 
         return {"primary_emotion":self.primary_emotion, "secondary_emotion":self.secondary_emotion}
-

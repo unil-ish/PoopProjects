@@ -1,3 +1,7 @@
+"""
+    Module Vizualisation
+"""
+
 import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
@@ -14,7 +18,8 @@ class Vizualisation:
 
     def __init__(self, play, vtype):
         if vtype not in self.vtypes:
-            print(f"# This vizualisation does not exist. Please choose between {', '.join(self.vtypes)}")
+            print('# This vizualisation does not exist.')
+            print(f"# Please choose between {', '.join(self.vtypes)}")
             return
 
         self.play = play
@@ -124,7 +129,11 @@ class Vizualisation:
                 emotions = [str(s.primary_emotion), str(s.secondary_emotion)]
                 for e in emotions:
                     if e != 'nan':
-                        df = pd.concat([df, df.from_dict({'speaker':[c.name], 'emotion':[e], 'scene':[s.scene]})], ignore_index=True)
+                        df = pd.concat([df,df.from_dict({
+                            'speaker':[c.name],
+                            'emotion':[e],
+                            'scene':[s.scene]
+                        })], ignore_index=True)
 
         # Drops useless characters
         df = df[df.speaker.isin(keys) == True]
@@ -179,7 +188,11 @@ class Vizualisation:
                 emotions = [str(s.primary_emotion), str(s.secondary_emotion)]
                 for e in emotions:
                     if e != 'nan':
-                        df = pd.concat([df, df.from_dict({'emotion':[e], 'scene':[str(s.scene)]})], ignore_index=True)
+                        df = pd.concat([df,
+                            df.from_dict({
+                                'emotion':[e],
+                                'scene':[str(s.scene)]
+                            })], ignore_index=True)
 
         # Renders plot
         plt.figure(figsize=(16,12))
@@ -195,4 +208,3 @@ class Vizualisation:
             print("# Successfully saved figure!")
         else:
             plt.show()
-

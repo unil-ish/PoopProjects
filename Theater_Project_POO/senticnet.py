@@ -1,6 +1,12 @@
+"""
+    Module senticnet
+"""
+
 import sys
 
 class Senticnet:
+    """ Class senticnet """
+
     def __init__(self, path="senticnet/senticnet.py"):
         """
             Loads a senticnet file into a dict.
@@ -118,10 +124,10 @@ class Senticnet:
         found_words = []
 
         # Loops through each entry of senticnet
-        for w,v in self.senticnet.items():
+        for word, _ in self.senticnet.items():
             # If word is found as synonym, add it to the list
-            if word in self.synonymsOf(w):
-                found_words.append(w)
+            if word in self.synonymsOf(word):
+                found_words.append(word)
 
         return found_words
 
@@ -149,9 +155,9 @@ class Senticnet:
         secondary_emotions = {}
 
         # Converts to list, if needed
-        if type(words) == str:
+        if isinstance(words, str):
             words = [words]
-        if type(words) != str and type(words) != list:
+        if not isinstance(words, str) and not isinstance(words, list):
             return {"primary_emotion":None, "secondary_emotion":None}
 
         # Loops through each word and find associated emotions
@@ -190,4 +196,3 @@ class Senticnet:
             secondary_max = None
 
         return {"primary_emotion":primary_max, "secondary_emotion":secondary_max}
-

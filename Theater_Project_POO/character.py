@@ -1,3 +1,7 @@
+"""
+    Module Character
+"""
+
 class Character:
     """
         Character class.
@@ -38,7 +42,7 @@ class Character:
         """ Estimates the general emotion of the character throughout the play. """
 
         speeches = self.getSpeeches(scene)
-        
+
         # Finds the average primary/secondary emotion for all the speeches
         primary_emotions = {}
         secondary_emotions = {}
@@ -92,4 +96,3 @@ class Character:
         """ Counts the amount of speeches belonging to a character. """
 
         return len(self.speeches)
-

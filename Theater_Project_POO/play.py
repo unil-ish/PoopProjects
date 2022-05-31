@@ -1,12 +1,18 @@
-from bs4 import BeautifulSoup
-import pandas as pd
+"""
+    Module Play
+"""
+
 import re
+import pandas as pd
+from bs4 import BeautifulSoup
 
 # Custom classes
 import character
 import speech
 
 class Play:
+    """ Class Play """
+
     def __init__(self, path):
         """
             Creates an object from a TEI-encoded theater play.
@@ -42,7 +48,7 @@ class Play:
                 soup = BeautifulSoup(xml_file, 'xml')
 
                 # Gets the title of the play
-                self.title = soup.find('title').text
+                self.title = re.sub(r'\s+', ' ', soup.find('title').text)
 
                 # Gets the author of the play
                 self.author = soup.find('author').text
@@ -54,8 +60,12 @@ class Play:
                 scenes = soup.find_all("div", attrs={"type" : "scene"})
 
                 # Finds all acts (if no scene has been found)
-                if not scenes:
+                if len(scenes) < 1:
                     scenes = soup.find_all("div", attrs={"type" : "act"})
+
+                # Finds body if no scene or act are found
+                if len(scenes) < 1:
+                    scenes = soup.find_all("body")
 
                 # To store speech id
                 speech_id = 1
@@ -68,14 +78,11 @@ class Play:
                     # Finds all "sp" tags in current scene
                     tags_sp = s.find_all('sp')
 
-                    # Gets scene number
-                    if s["n"]:
-                        try:
-                            scene_number = int(s["n"])
-                        except:
-                            scene_number = 0
-                    else:
-                        scene_number = 0
+                    # Gets scene number (if available)
+                    try:
+                        scene_number = int(s["n"])
+                    except:
+                        scene_number = 1
 
                     # Loops through each sp
                     for _, sp in enumerate(tags_sp):
@@ -88,7 +95,7 @@ class Play:
                         if len(speaker) > 35 or speaker.count(' ') > 5:
                             continue
 
-                        # Finds all other possible speech that 
+                        # Finds all other possible speech that
                         # a speaker can have (tags p and l)
                         tags = sp.find_all('p') + sp.find_all('l')
 
@@ -97,7 +104,18 @@ class Play:
                             tag = tag.text.strip()
 
                             # Stores in dataframe for easy retrieval
-                            self.speaker_speech = pd.concat([self.speaker_speech, self.speaker_speech.from_dict({'speaker':[speaker], 'speech':[speech.Speech(tag, scene_number, speech_id)], 'scene':[scene_number]})], ignore_index=True)
+                            self.speaker_speech = pd.concat([
+                                self.speaker_speech, self.speaker_speech.from_dict({
+                                    'speaker':[speaker],
+                                    'speech':[
+                                        speech.Speech(
+                                            tag,
+                                            scene_number,
+                                            speech_id)
+                                        ],
+                                    'scene':[scene_number]
+                                })
+                            ], ignore_index=True)
 
                             # Adds raw text
                             self.text += ' ' + tag
@@ -111,8 +129,7 @@ class Play:
             self.makeCharacters()
 
             # Success message
-            print(f'# Play "{self.title}" ({self.author}, {self.date}) with {self.scenes} scene(s), {len(self.characters)} character(s) and {self.speech_amount} speech(es) successfully loaded!')
-            
+            print(f'''# Play "{self.title}" ({self.author}, {self.date}) with {self.scenes} scene(s), {len(self.characters)} character(s) and {self.speech_amount} speech(es) successfully loaded!''')
 
         # Returns empty dataframe if the file could not be opened/found
         except IOError:
@@ -175,28 +192,52 @@ class Play:
         return words
 
     def to_csv(self):
+        """ Exports a play to a CSV file. """
+    
         # Constructs dataframe
-        export_df = pd.DataFrame(columns=['id', 'speaker', 'disambiguation_time', 'pywsd_output', 'tokens_text', 'tokens_emotions', 'scene', 'primary_emotion', 'secondary_emotion', 'text_disambiguate', 'speech'])
+        export_df = pd.DataFrame(columns=[
+            'id',
+            'speaker',
+            'disambiguation_time',
+            'pywsd_output',
+            'tokens_text',
+            'tokens_emotions',
+            'scene',
+            'primary_emotion',
+            'secondary_emotion',
+            'text_disambiguate',
+            'speech'
+        ])
 
         # Loops through each character
         for c in self.characters:
             # Loops through each speech
             for s in c.speeches:
-                export_df = export_df.append({'id':s.id, 'speaker':c.name, 'disambiguation_time':s.disambiguation_time, 'pywsd_output':s.pywsd_output, 'tokens_text':s.tokenized_text, 'tokens_emotions':s.tokenized_emotions, 'scene':s.scene, 'primary_emotion':s.primary_emotion, 'secondary_emotion':s.secondary_emotion, 'text_disambiguate':s.text_disambiguate, 'speech':s.text}, ignore_index=True)
+                export_df = pd.concat([export_df,export_df.from_dict({
+                    'id':[s.id],
+                    'speaker':[c.name],
+                    'disambiguation_time':[s.disambiguation_time],
+                    'pywsd_output':[s.pywsd_output],
+                    'tokens_text':[s.tokenized_text],
+                    'tokens_emotions':[s.tokenized_emotions],
+                    'scene':[s.scene],
+                    'primary_emotion':[s.primary_emotion],
+                    'secondary_emotion':[s.secondary_emotion],
+                    'text_disambiguate':[s.text_disambiguate],
+                    'speech':[s.text]
+                })], ignore_index=True)
 
         # Saves csv to same folder than the script
         try:
-            csv_name = self.title + '- Exported.csv'
+            csv_name = self.title + ' - Exported.csv'
             export_df.to_csv(csv_name, index=False)
             print('# Successfully exported to csv!')
 
-        except:
+        except IOError:
             print('# An error occured while exporting to csv!')
 
     def from_csv(self, path):
-        """
-            Loads a play previously exported as CSV.
-        """
+        """ Loads a play previously exported in a CSV file. """
 
         try:
             # Loads CSV
@@ -227,7 +268,11 @@ class Play:
 
                 # Adds to play dataframe
                 speaker = row[1].speaker
-                self.speaker_speech = pd.concat([self.speaker_speech, self.speaker_speech.from_dict({'speaker':[speaker], 'speech':[s], 'scene':[scene]})], ignore_index=True)
+                self.speaker_speech = pd.concat([self.speaker_speech,self.speaker_speech.from_dict({
+                    'speaker':[speaker],
+                    'speech':[s],
+                    'scene':[scene]
+                })], ignore_index=True)
 
             # Sets max scene value
             self.scene = scene
@@ -238,10 +283,8 @@ class Play:
             # Callback
             print("# Successfully loaded state from CSV file!")
 
-        except:
+        except TypeError:
             print("# The play state could not be loaded from CSV file!")
-
-        return
 
     def __str__(self):
         """ Returns the name of the play when printed. """
@@ -250,4 +293,3 @@ class Play:
     def __len__(self):
         """ Returns the amount of words in the play. """
         return self.countWords
-
