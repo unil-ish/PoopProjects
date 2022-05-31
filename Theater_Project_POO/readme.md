@@ -103,4 +103,4 @@ As of right now, this program loops through every line of a play to extract emot
 This design has the inevitable disadvantage of being very computationally heavy, mostly because of the disambiguation that is executed on every speech line. Performance improvements could be made in order to accelerate the text processing of the plays.
 
 ### Credits
-This project was done by Sinem IWISHIKNEWYOURLASTNAME, Ellijah BRUHIDONTKNOW, Antonin THEGODDAMNGENIUS and Pedro Tomé under the supervision of Mr. Davide Picca, teacher of object-oriented programming at the University of Lausanne, Switzerland.
+This project was done by Sinem Kilic, Ellijah Green, Antonin Schnyder and Pedro Tomé under the supervision of Mr. Davide Picca, teacher of object-oriented programming at the University of Lausanne, Switzerland.
